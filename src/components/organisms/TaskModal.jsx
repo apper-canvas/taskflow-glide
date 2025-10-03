@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Button from "@/components/atoms/Button"
-import TaskFormFields from "@/components/molecules/TaskFormFields"
-import ApperIcon from "@/components/ApperIcon"
-import { taskService } from "@/services/api/taskService"
-import { categoryService } from "@/services/api/categoryService"
-import { toast } from "react-toastify"
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { taskService } from "@/services/api/taskService";
+import { categoryService } from "@/services/api/categoryService";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import TaskFormFields from "@/components/molecules/TaskFormFields";
+import Button from "@/components/atoms/Button";
 const TaskModal = ({ 
   isOpen, 
   onClose, 
   onSubmit, 
   initialData = null, 
-  isEditing = false 
+  isEditing = false,
+  parentTaskId = null,
+  parentTaskData = null
 }) => {
 const [formData, setFormData] = useState({
     title_c: "",
@@ -28,13 +30,30 @@ const [formData, setFormData] = useState({
     subcategory_c: "",
     urgency_c: ""
   })
-  const [categories, setCategories] = useState([])
-  const [errors, setErrors] = useState({})
+const [categories, setCategories] = useState([])
+  const [isGeneratingDescription, setIsGeneratingDescription] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-const [isGeneratingDescription, setIsGeneratingDescription] = useState(false)
-  useEffect(() => {
+  const [errors, setErrors] = useState({})
+  const [parentTask, setParentTask] = useState(null)
+useEffect(() => {
     if (isOpen) {
       loadCategories()
+      
+      // Fetch parent task details if creating subtask
+      if (parentTaskId && !initialData) {
+        const fetchParentTask = async () => {
+          try {
+            const parent = await taskService.getById(parentTaskId)
+            setParentTask(parent)
+          } catch (error) {
+            console.error("Error fetching parent task:", error)
+          }
+        }
+        fetchParentTask()
+      } else {
+        setParentTask(null)
+      }
+      
       if (initialData) {
 setFormData({
           title_c: initialData.title_c || initialData.title || "",
@@ -53,17 +72,19 @@ setFormData({
         })
       } else {
 setFormData({
-          title: "",
-          description: "",
-          generatedDescription: "",
-          category: "",
-          priority: "medium",
-          dueDate: "",
-          isRecurring: false,
-          recurringFrequency: "",
-          recurringStartDate: "",
-          recurringEndDate: "",
-          recurringEnabled: true
+          title_c: "",
+          description_c: "",
+          category_c: parentTaskData?.category_c || "",
+          priority_c: parentTaskData?.priority_c || "medium",
+          due_date_c: "",
+          is_recurring_c: false,
+          recurring_frequency_c: "",
+          recurring_start_date_c: "",
+          recurring_end_date_c: "",
+          recurring_enabled_c: true,
+          generated_description_c: "",
+          subcategory_c: "",
+          urgency_c: ""
         })
       }
       setErrors({})
@@ -128,7 +149,8 @@ const validateForm = () => {
 const taskData = {
         ...formData,
         completed_c: initialData?.completed_c !== undefined ? initialData.completed_c : (initialData?.completed || false),
-        completed_at_c: initialData?.completed_at_c || initialData?.completedAt || null
+        completed_at_c: initialData?.completed_at_c || initialData?.completedAt || null,
+        parent_task_id_c: parentTaskId || null
       }
       
       onSubmit(taskData)
@@ -180,10 +202,10 @@ const generatedDescription = await taskService.generateDescription(title)
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative bg-surface rounded-xl shadow-2xl p-6 w-full max-w-md mx-4"
-        >
+>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-900">
-              {isEditing ? "Edit Task" : "Create New Task"}
+              {isEditing ? "Edit Task" : parentTaskId ? `Add Subtask to: ${parentTask?.title_c || "Task"}` : "Create New Task"}
             </h2>
             <Button
               variant="ghost"
@@ -203,6 +225,8 @@ const generatedDescription = await taskService.generateDescription(title)
               errors={errors}
               onGenerateDescription={handleGenerateDescription}
               isGeneratingDescription={isGeneratingDescription}
+              isSubtask={!!parentTaskId}
+              parentTaskTitle={parentTask?.title_c}
             />
 
             <div className="flex space-x-3 pt-4">

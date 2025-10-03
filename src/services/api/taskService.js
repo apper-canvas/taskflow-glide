@@ -62,7 +62,7 @@ class TaskService {
 
   async getById(id) {
     try {
-      const params = {
+const params = {
 fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
@@ -119,7 +119,7 @@ title_c: taskData.title_c || taskData.title,
           recurring_start_date_c: taskData.recurring_start_date_c || taskData.recurringStartDate,
           recurring_end_date_c: taskData.recurring_end_date_c || taskData.recurringEndDate,
           recurring_enabled_c: taskData.recurring_enabled_c !== undefined ? taskData.recurring_enabled_c : (taskData.recurringEnabled || false),
-          parent_task_id_c: taskData.parent_task_id_c || taskData.parentTaskId || null,
+          parent_task_id_c: taskData.parent_task_id_c !== undefined ? (taskData.parent_task_id_c ? parseInt(taskData.parent_task_id_c) : null) : (taskData.parentTaskId ? parseInt(taskData.parentTaskId) : null),
           generated_description_c: taskData.generated_description_c || taskData.generatedDescription || null,
           subcategory_c: taskData.subcategory_c ? parseInt(taskData.subcategory_c) : null,
           urgency_c: taskData.urgency_c || taskData.urgency || null
@@ -206,7 +206,7 @@ title_c: taskData.title_c || taskData.title,
           recurring_start_date_c: taskData.recurring_start_date_c || taskData.recurringStartDate,
           recurring_end_date_c: taskData.recurring_end_date_c || taskData.recurringEndDate,
           recurring_enabled_c: taskData.recurring_enabled_c !== undefined ? taskData.recurring_enabled_c : taskData.recurringEnabled,
-          parent_task_id_c: taskData.parent_task_id_c !== undefined ? taskData.parent_task_id_c : taskData.parentTaskId,
+          parent_task_id_c: taskData.parent_task_id_c !== undefined ? (taskData.parent_task_id_c ? parseInt(taskData.parent_task_id_c) : null) : (taskData.parentTaskId ? parseInt(taskData.parentTaskId) : null),
           generated_description_c: taskData.generated_description_c || taskData.generatedDescription || null,
           subcategory_c: taskData.subcategory_c ? parseInt(taskData.subcategory_c) : null,
           urgency_c: taskData.urgency_c || taskData.urgency || null
@@ -289,13 +289,14 @@ title_c: taskData.title_c || taskData.title,
   async getByCategory(categoryId) {
     try {
       const params = {
-        fields: [
+fields: [
 {"field": {"Name": "Id"}},
           {"field": {"Name": "title_c"}},
           {"field": {"Name": "description_c"}},
           {"field": {"Name": "category_c"}},
           {"field": {"Name": "priority_c"}},
           {"field": {"Name": "due_date_c"}},
+          {"field": {"Name": "parent_task_id_c"}},
           {"field": {"Name": "generated_description_c"}},
           {"field": {"Name": "subcategory_c"}},
           {"field": {"Name": "urgency_c"}},
@@ -310,27 +311,71 @@ title_c: taskData.title_c || taskData.title,
       console.error("Error fetching tasks by category:", error);
       return [];
     }
-  }
+}
 
   async getCompleted() {
     try {
-      const params = {
-        fields: [
-          {"field": {"Name": "Id"}},
-          {"field": {"Name": "title_c"}},
-          {"field": {"Name": "completed_c"}},
-          {"field": {"Name": "completed_at_c"}}
-        ],
-        where: [{"FieldName": "completed_c", "Operator": "EqualTo", "Values": [true]}]
-      };
-
-      const response = await this.apperClient.fetchRecords(this.tableName, params);
-      return response.success ? (response.data || []) : [];
+      const allTasks = await this.getAll();
+      return allTasks.filter(task => task.completed_c === true);
     } catch (error) {
       console.error("Error fetching completed tasks:", error);
       return [];
     }
   }
+
+  async getSubtasks(parentTaskId) {
+    try {
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      })
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "Tags"}},
+          {"field": {"Name": "title_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "priority_c"}},
+          {"field": {"Name": "due_date_c"}},
+          {"field": {"Name": "completed_c"}},
+          {"field": {"Name": "completed_at_c"}},
+          {"field": {"Name": "is_recurring_c"}},
+          {"field": {"Name": "recurring_frequency_c"}},
+          {"field": {"Name": "recurring_start_date_c"}},
+          {"field": {"Name": "recurring_end_date_c"}},
+          {"field": {"Name": "recurring_enabled_c"}},
+          {"field": {"Name": "parent_task_id_c"}},
+          {"field": {"Name": "generated_description_c"}},
+          {"field": {"Name": "subcategory_c"}},
+          {"field": {"Name": "urgency_c"}},
+          {"field": {"Name": "CreatedOn"}}
+        ],
+        where: [
+          {
+            "FieldName": "parent_task_id_c",
+            "Operator": "EqualTo",
+            "Values": [parseInt(parentTaskId)]
+          }
+        ],
+        orderBy: [{"fieldName": "CreatedOn", "sorttype": "ASC"}]
+      }
+
+      const response = await apperClient.fetchRecords('task_c', params)
+
+      if (!response.success) {
+        console.error("apper_info: Got an error in this function: getSubtasks. The response body is:", JSON.stringify(response))
+        return []
+      }
+
+      return response.data || []
+    } catch (error) {
+      console.error("apper_info: Got this error in this function: getSubtasks. The error is:", error.message)
+      return []
+    }
+}
 
   async getPending() {
     try {

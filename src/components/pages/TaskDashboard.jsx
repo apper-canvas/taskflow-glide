@@ -47,7 +47,9 @@ const handleTaskAdd = async (taskData) => {
       const allTasks = await taskService.getAll()
       setTasks(allTasks)
       
-      if (taskData.isRecurring) {
+      if (taskData.parent_task_id_c || taskData.parentTaskId) {
+        toast.success("Subtask created successfully!")
+      } else if (taskData.isRecurring || taskData.is_recurring_c) {
         toast.success(`Recurring task created! Future instances have been generated.`)
       } else {
         toast.success("Task created successfully!")
@@ -58,12 +60,13 @@ const handleTaskAdd = async (taskData) => {
     }
   }
 
-  const handleTaskUpdate = async (taskId, taskData) => {
+const handleTaskUpdate = async (taskId, taskData) => {
     try {
       const updatedTask = await taskService.update(taskId, taskData)
-      setTasks(prev => prev.map(task => 
-        task.Id === taskId ? updatedTask : task
-      ))
+      
+      // Reload all tasks to reflect subtask changes in parent tasks
+      const allTasks = await taskService.getAll()
+      setTasks(allTasks)
       
 if (taskData.completed_c && !tasks.find(t => t.Id === taskId)?.completed_c) {
         toast.success("Task completed! Great work! 🎉")
@@ -78,12 +81,25 @@ if (taskData.completed_c && !tasks.find(t => t.Id === taskId)?.completed_c) {
     }
   }
 
-  const handleTaskDelete = async (taskId) => {
-    if (!confirm("Are you sure you want to delete this task?")) return
+const handleTaskDelete = async (taskId) => {
+    // Check if task has subtasks
+    const taskToDelete = tasks.find(t => t.Id === taskId)
+    const subtasks = tasks.filter(t => t.parent_task_id_c === taskId)
+    
+    let confirmMessage = "Are you sure you want to delete this task?"
+    if (subtasks.length > 0) {
+      confirmMessage = `This task has ${subtasks.length} subtask(s). Deleting it will also delete all subtasks. Continue?`
+    }
+    
+    if (!confirm(confirmMessage)) return
     
     try {
+      // Delete parent task (backend should handle cascade delete of subtasks)
       await taskService.delete(taskId)
-      setTasks(prev => prev.filter(task => task.Id !== taskId))
+      
+      // Remove parent task and all its subtasks from state
+      setTasks(prev => prev.filter(task => task.Id !== taskId && task.parent_task_id_c !== taskId))
+      
       toast.success("Task deleted successfully!")
     } catch (err) {
       toast.error("Failed to delete task")
@@ -140,26 +156,28 @@ const priorityOrder = { urgent: 4, high: 3, medium: 2, low: 1 }
     })
   }, [tasks, activeCategory, searchTerm])
 
-  const taskCounts = useMemo(() => {
+const taskCounts = useMemo(() => {
+    // Exclude subtasks from main counts
+    const mainTasks = tasks.filter(t => !t.parent_task_id_c)
+    
 const counts = {
-      all: tasks.filter(t => !t.completed_c).length,
-      today: tasks.filter(t => 
+      all: mainTasks.filter(t => !t.completed_c).length,
+      today: mainTasks.filter(t => 
         t.due_date_c && isToday(parseISO(t.due_date_c)) && !t.completed_c
       ).length,
-      overdue: tasks.filter(t => 
+      overdue: mainTasks.filter(t => 
         t.due_date_c && isPast(parseISO(t.due_date_c)) && !t.completed_c
       ).length
     }
 
 categories.forEach(category => {
-      counts[category.Id] = tasks.filter(t => 
+      counts[category.Id] = mainTasks.filter(t => 
         t.category_c === category.Id && !t.completed_c
       ).length
     })
 
     return counts
   }, [tasks, categories])
-
   const completionRate = useMemo(() => {
     const totalTasks = tasks.length
 if (totalTasks === 0) return 0
@@ -167,7 +185,7 @@ if (totalTasks === 0) return 0
     return (completedTasks / totalTasks) * 100
   }, [tasks])
 
-  return (
+return (
     <div className="flex h-full">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block w-80 flex-shrink-0">
@@ -211,6 +229,7 @@ if (totalTasks === 0) return 0
               error={error}
               onTaskUpdate={handleTaskUpdate}
               onTaskDelete={handleTaskDelete}
+              onTaskAdd={handleTaskAdd}
               onRetry={loadData}
             />
           </div>
