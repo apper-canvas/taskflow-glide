@@ -325,11 +325,6 @@ fields: [
 
 async getSubtasks(parentTaskId) {
     try {
-      const { ApperClient } = window.ApperSDK;
-      const apperClient = new ApperClient({
-        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
-        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-      })
       const params = {
         fields: [
           {"field": {"Name": "Id"}},
@@ -360,11 +355,10 @@ async getSubtasks(parentTaskId) {
             "Values": [parseInt(parentTaskId)]
           }
         ],
-        orderBy: [{"fieldName": "CreatedOn", "sorttype": "ASC"}]
+orderBy: [{"fieldName": "CreatedOn", "sorttype": "ASC"}]
       }
 
-      const response = await apperClient.fetchRecords('task_c', params)
-
+      const response = await this.apperClient.fetchRecords('task_c', params)
       if (!response.success) {
         console.error("apper_info: Got an error in this function: getSubtasks. The response body is:", JSON.stringify(response))
         return []

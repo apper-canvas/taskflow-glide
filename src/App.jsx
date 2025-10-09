@@ -18,8 +18,6 @@ import CompaniesList from "@/components/pages/CompaniesList"
 import CompanyDetail from "@/components/pages/CompanyDetail"
 import DealsList from "@/components/pages/DealsList"
 import DealDetail from "@/components/pages/DealDetail"
-import LeadsList from "@/components/pages/LeadsList"
-import LeadDetail from "@/components/pages/LeadDetail"
 // Create auth context
 export const AuthContext = createContext(null);
 
@@ -166,16 +164,6 @@ function App() {
           <Route path="/crm/deals/:id" element={
             <Layout>
               <DealDetail />
-            </Layout>
-          } />
-          <Route path="/crm/leads" element={
-            <Layout>
-              <LeadsList />
-            </Layout>
-          } />
-          <Route path="/crm/leads/:id" element={
-            <Layout>
-              <LeadDetail />
             </Layout>
           } />
         </Routes>
