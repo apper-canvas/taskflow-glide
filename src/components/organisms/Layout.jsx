@@ -1,10 +1,11 @@
-import { useState, useContext } from "react"
-import { useSelector } from 'react-redux'
-import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
-import Button from "@/components/atoms/Button"
-import { AuthContext } from "../../App"
-
+import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { AuthContext } from "../../App";
+import CRMSidebar from "@/components/organisms/CRMSidebar";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import { cn } from "@/utils/cn";
 const Layout = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, isAuthenticated } = useSelector((state) => state.user)
@@ -61,7 +62,7 @@ const Layout = ({ children }) => {
                 <ApperIcon name="X" size={20} />
               </button>
             </div>
-            <div className="p-4">
+<div className="p-4">
               {/* Mobile menu content */}
               <div className="space-y-4">
                 {isAuthenticated && (
@@ -83,11 +84,10 @@ const Layout = ({ children }) => {
         </div>
       )}
 
-      {/* Desktop Sidebar Space */}
+{/* Desktop Sidebar Space */}
       <div className="hidden lg:block w-80 flex-shrink-0">
-        {/* Sidebar content will be rendered by pages */}
+        <CRMSidebar />
       </div>
-
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
         {children}

@@ -11,7 +11,15 @@ import ResetPassword from '@/components/pages/ResetPassword';
 import PromptPassword from '@/components/pages/PromptPassword';
 import Layout from "@/components/organisms/Layout"
 import TaskDashboard from "@/components/pages/TaskDashboard"
-
+import CRMDashboard from "@/components/pages/CRMDashboard"
+import ContactsList from "@/components/pages/ContactsList"
+import ContactDetail from "@/components/pages/ContactDetail"
+import CompaniesList from "@/components/pages/CompaniesList"
+import CompanyDetail from "@/components/pages/CompanyDetail"
+import DealsList from "@/components/pages/DealsList"
+import DealDetail from "@/components/pages/DealDetail"
+import LeadsList from "@/components/pages/LeadsList"
+import LeadDetail from "@/components/pages/LeadDetail"
 // Create auth context
 export const AuthContext = createContext(null);
 
@@ -120,9 +128,54 @@ function App() {
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-          <Route path="/" element={
+<Route path="/" element={
             <Layout>
               <TaskDashboard />
+            </Layout>
+          } />
+          <Route path="/crm" element={
+            <Layout>
+              <CRMDashboard />
+            </Layout>
+          } />
+          <Route path="/crm/contacts" element={
+            <Layout>
+              <ContactsList />
+            </Layout>
+          } />
+          <Route path="/crm/contacts/:id" element={
+            <Layout>
+              <ContactDetail />
+            </Layout>
+          } />
+          <Route path="/crm/companies" element={
+            <Layout>
+              <CompaniesList />
+            </Layout>
+          } />
+          <Route path="/crm/companies/:id" element={
+            <Layout>
+              <CompanyDetail />
+            </Layout>
+          } />
+          <Route path="/crm/deals" element={
+            <Layout>
+              <DealsList />
+            </Layout>
+          } />
+          <Route path="/crm/deals/:id" element={
+            <Layout>
+              <DealDetail />
+            </Layout>
+          } />
+          <Route path="/crm/leads" element={
+            <Layout>
+              <LeadsList />
+            </Layout>
+          } />
+          <Route path="/crm/leads/:id" element={
+            <Layout>
+              <LeadDetail />
             </Layout>
           } />
         </Routes>

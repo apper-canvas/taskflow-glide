@@ -1,0 +1,326 @@
+[
+  {
+    "Id": 1,
+    "name": "TechCorp Enterprise Platform",
+    "companyId": 1,
+    "companyName": "TechCorp Solutions",
+    "contactId": 1,
+    "contactName": "John Smith",
+    "value": 85000,
+    "stage": "proposal",
+    "probability": 75,
+    "expectedCloseDate": "2024-02-15",
+    "owner": "Sales Rep 1",
+    "source": "website",
+    "description": "Enterprise software platform implementation for TechCorp's expanding operations.",
+    "notes": "CTO is very interested. Waiting for final budget approval from board.",
+    "tags": ["enterprise", "high-value"],
+    "activities": [
+      {
+        "date": "2024-01-15T10:30:00Z",
+        "type": "call",
+        "description": "Discovery call with CTO",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-12-01T09:00:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Innovate Marketing Automation",
+    "companyId": 2,
+    "companyName": "Innovate Marketing",
+    "contactId": 2,
+    "contactName": "Sarah Johnson",
+    "value": 35000,
+    "stage": "negotiation",
+    "probability": 85,
+    "expectedCloseDate": "2024-01-30",
+    "owner": "Sales Rep 2",
+    "source": "referral",
+    "description": "Marketing automation platform to streamline digital campaigns.",
+    "notes": "Budget approved. Finalizing contract terms and implementation timeline.",
+    "tags": ["marketing", "automation"],
+    "activities": [
+      {
+        "date": "2024-01-18T14:15:00Z",
+        "type": "meeting",
+        "description": "Contract review meeting",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-11-15T14:20:00Z",
+    "updatedAt": "2024-01-18T14:15:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Global Finance Compliance Suite",
+    "companyId": 3,
+    "companyName": "Global Finance Corp",
+    "contactId": 3,
+    "contactName": "Michael Brown",
+    "value": 150000,
+    "stage": "qualification",
+    "probability": 45,
+    "expectedCloseDate": "2024-04-30",
+    "owner": "Sales Rep 1",
+    "source": "linkedin",
+    "description": "Comprehensive compliance management solution for financial services.",
+    "notes": "Large enterprise deal. Multiple stakeholders involved. Long sales cycle expected.",
+    "tags": ["enterprise", "compliance", "financial"],
+    "activities": [
+      {
+        "date": "2024-01-12T16:45:00Z",
+        "type": "email",
+        "description": "Sent detailed proposal",
+        "outcome": "pending"
+      }
+    ],
+    "createdAt": "2023-10-20T11:30:00Z",
+    "updatedAt": "2024-01-12T16:45:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "HealthPlus Workflow System",
+    "companyId": 4,
+    "companyName": "HealthPlus Clinic",
+    "contactId": 4,
+    "contactName": "Emily Davis",
+    "value": 42000,
+    "stage": "demo",
+    "probability": 60,
+    "expectedCloseDate": "2024-02-28",
+    "owner": "Sales Rep 3",
+    "source": "trade-show",
+    "description": "Patient workflow optimization system for multi-specialty clinic.",
+    "notes": "Demo scheduled for next week. Strong interest from operations team.",
+    "tags": ["healthcare", "workflow"],
+    "activities": [
+      {
+        "date": "2024-01-20T09:30:00Z",
+        "type": "call",
+        "description": "Pre-demo planning call",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-12-10T15:45:00Z",
+    "updatedAt": "2024-01-20T09:30:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "EduTech Campus Management",
+    "companyId": 6,
+    "companyName": "EduTech University",
+    "contactId": 6,
+    "contactName": "Lisa Anderson",
+    "value": 95000,
+    "stage": "proposal",
+    "probability": 70,
+    "expectedCloseDate": "2024-03-15",
+    "owner": "Sales Rep 1",
+    "source": "webinar",
+    "description": "Comprehensive campus management system for university operations.",
+    "notes": "IT Director very engaged. Budget cycle aligns with our timeline.",
+    "tags": ["education", "campus-management"],
+    "activities": [
+      {
+        "date": "2024-01-22T15:20:00Z",
+        "type": "meeting",
+        "description": "Proposal presentation",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-12-15T10:00:00Z",
+    "updatedAt": "2024-01-22T15:20:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Manufacturing Automation Tools",
+    "companyId": 7,
+    "companyName": "ManufacturingPro Inc",
+    "contactId": 7,
+    "contactName": "Robert Taylor",
+    "value": 68000,
+    "stage": "discovery",
+    "probability": 35,
+    "expectedCloseDate": "2024-05-30",
+    "owner": "Sales Rep 2",
+    "source": "website",
+    "description": "Production line automation and monitoring solutions.",
+    "notes": "Early stage. Need to better understand their specific manufacturing processes.",
+    "tags": ["manufacturing", "automation"],
+    "activities": [
+      {
+        "date": "2024-01-10T08:45:00Z",
+        "type": "call",
+        "description": "Initial discovery call",
+        "outcome": "neutral"
+      }
+    ],
+    "createdAt": "2024-01-05T13:20:00Z",
+    "updatedAt": "2024-01-10T08:45:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "Consulting CRM Implementation",
+    "companyId": 8,
+    "companyName": "Consulting Professionals",
+    "contactId": 8,
+    "contactName": "Jennifer Martinez",
+    "value": 25000,
+    "stage": "closed-won",
+    "probability": 100,
+    "expectedCloseDate": "2024-01-15",
+    "owner": "Sales Rep 3",
+    "source": "referral",
+    "description": "CRM system setup and customization for consulting firm.",
+    "notes": "Successfully closed! Client very satisfied with solution. Potential for referrals.",
+    "tags": ["consulting", "crm", "closed-won"],
+    "activities": [
+      {
+        "date": "2024-01-25T13:10:00Z",
+        "type": "meeting",
+        "description": "Project kickoff meeting",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-11-20T12:30:00Z",
+    "updatedAt": "2024-01-25T13:10:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Real Estate Property Management",
+    "companyId": 9,
+    "companyName": "Real Estate Solutions",
+    "contactId": 9,
+    "contactName": "Christopher Moore",
+    "value": 38000,
+    "stage": "qualification",
+    "probability": 40,
+    "expectedCloseDate": "2024-03-30",
+    "owner": "Sales Rep 2",
+    "source": "linkedin",
+    "description": "Property and tenant management system for commercial real estate.",
+    "notes": "Property manager interested but needs to present to ownership group.",
+    "tags": ["real-estate", "property-management"],
+    "activities": [
+      {
+        "date": "2024-01-14T10:00:00Z",
+        "type": "email",
+        "description": "Sent ROI analysis",
+        "outcome": "pending"
+      }
+    ],
+    "createdAt": "2023-12-20T14:15:00Z",
+    "updatedAt": "2024-01-14T10:00:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "Food Service POS Integration",
+    "companyId": 10,
+    "companyName": "Food Service Plus",
+    "contactId": 10,
+    "contactName": "Amanda White",
+    "value": 52000,
+    "stage": "demo",
+    "probability": 65,
+    "expectedCloseDate": "2024-02-20",
+    "owner": "Sales Rep 1",
+    "source": "trade-show",
+    "description": "Point-of-sale system integration across multiple restaurant locations.",
+    "notes": "GM impressed with demo. Scheduling follow-up with operations team.",
+    "tags": ["food-service", "pos", "multi-location"],
+    "activities": [
+      {
+        "date": "2024-01-19T12:30:00Z",
+        "type": "demo",
+        "description": "Product demonstration",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-11-30T16:00:00Z",
+    "updatedAt": "2024-01-19T12:30:00Z"
+  },
+  {
+    "Id": 10,
+    "name": "Logistics Tracking System",
+    "companyId": 11,
+    "companyName": "Logistics Network",
+    "contactId": 11,
+    "contactName": "Kevin Garcia",
+    "value": 78000,
+    "stage": "discovery",
+    "probability": 30,
+    "expectedCloseDate": "2024-06-15",
+    "owner": "Sales Rep 3",
+    "source": "webinar",
+    "description": "Supply chain tracking and logistics management platform.",
+    "notes": "Complex integration requirements. Need technical team involvement.",
+    "tags": ["logistics", "supply-chain", "complex"],
+    "activities": [
+      {
+        "date": "2024-01-16T09:15:00Z",
+        "type": "call",
+        "description": "Technical requirements discussion",
+        "outcome": "neutral"
+      }
+    ],
+    "createdAt": "2024-01-08T11:45:00Z",
+    "updatedAt": "2024-01-16T09:15:00Z"
+  },
+  {
+    "Id": 11,
+    "name": "Nonprofit Donor Management",
+    "companyId": 12,
+    "companyName": "Community Nonprofit",
+    "contactId": 12,
+    "contactName": "Nicole Thompson",
+    "value": 15000,
+    "stage": "proposal",
+    "probability": 80,
+    "expectedCloseDate": "2024-02-10",
+    "owner": "Sales Rep 2",
+    "source": "referral",
+    "description": "Donor management and fundraising tracking system for nonprofit.",
+    "notes": "Board approved budget. Strong mission alignment with our values.",
+    "tags": ["nonprofit", "donor-management"],
+    "activities": [
+      {
+        "date": "2024-01-21T14:45:00Z",
+        "type": "meeting",
+        "description": "Board presentation",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2023-12-28T10:30:00Z",
+    "updatedAt": "2024-01-21T14:45:00Z"
+  },
+  {
+    "Id": 12,
+    "name": "StartupTech Growth Platform",
+    "companyId": 13,
+    "companyName": "StartupTech Innovations",
+    "contactId": 13,
+    "contactName": "Daniel Lee",
+    "value": 28000,
+    "stage": "negotiation",
+    "probability": 90,
+    "expectedCloseDate": "2024-01-31",
+    "owner": "Sales Rep 1",
+    "source": "website",
+    "description": "Scalable business platform for rapidly growing tech startup.",
+    "notes": "Founder very engaged. Fast decision-making process. Ready to close.",
+    "tags": ["startup", "scalable", "fast-track"],
+    "activities": [
+      {
+        "date": "2024-01-23T11:20:00Z",
+        "type": "call",
+        "description": "Final pricing negotiation",
+        "outcome": "positive"
+      }
+    ],
+    "createdAt": "2024-01-10T14:30:00Z",
+    "updatedAt": "2024-01-23T11:20:00Z"
+  }
+]
